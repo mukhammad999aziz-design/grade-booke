@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GradeBook — Улучшенный стиль</title>
+<style>
+:root{
+  --bg:#f0f4ff;
+  --card:#fff;
+  --accent:#4a6cf7;
+  --accent-hover:#3a52c4;
+  --danger:#ef4444;
+  --muted:#6b7280;
+  --header-bg:linear-gradient(90deg,#e0e7ff,#c7d2fe);
+  --row-hover:#f0f2ff;
+  --shadow:0 8px 24px rgba(0,0,50,0.08);
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family: 'Inter', Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color:#111;
+}
+.wrap{max-width:1200px;margin:30px auto;padding:20px;}
+.card{
+  background: var(--card);
+  border-radius:16px;
+  box-shadow: var(--shadow);
+  overflow:hidden;
+  padding:20px;
+  transition: all 0.3s ease;
+}
+h1{margin:0 0 15px;font-size:24px;text-align:center;color:var(--accent);}
+.controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin-bottom:20px;
+}
+button{
+  padding:10px 18px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+  transition: all 0.2s;
+}
+button.primary{background:var(--accent); color:white;}
+button.primary:hover{background:var(--accent-hover);}
+button.secondary{background:transparent; border:2px solid var(--accent); color:var(--accent);}
+button.secondary:hover{background:var(--accent); color:white;}
+button.danger{background:var(--danger); color:white;}
+button.danger:hover{background:#c03232;}
+input[type=text]{padding:8px 10px; border-radius:8px; border:1px solid #ccc; margin-right:10px; flex:1; min-width:180px;}
+table{
+  width:100%;
+  border-collapse: separate;
+  border-spacing:0;
+  background:var(--card);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow: var(--shadow);
+  margin-bottom:20px;
+}
+thead th{
+  background: var(--header-bg);
+  color:#111;
+  font-weight:700;
+  text-align:center;
+  position:sticky;
+  top:0;
+  z-index:2;
+}
+th, td{
+  padding:12px;
+  border-bottom:1px solid #e0e7ff;
+  text-align:center;
+}
+tbody tr:hover{background:var(--row-hover);}
+select{padding:6px 8px;border-radius:6px;border:1px solid #ccc;transition:0.2s;}
+select:hover{border-color:var(--accent);}
+.actions{display:flex;gap:6px;justify-content:center;}
+.deleteBtn{background:#ff4d4d;color:white;transition:0.2s;}
+.deleteBtn:hover{background:#c03232;}
+.photoBtn{background:var(--accent); color:white; transition:0.2s;}
+.photoBtn:hover{background:var(--accent-hover);}
+.panel{margin-bottom:15px;display:flex; gap:10px; flex-wrap:wrap; justify-content:center;}
+@media(max-width:900px){
+  .controls, .panel{flex-direction:column; align-items:center;}
+  input[type=text]{margin-right:0;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>GradeBook — Стильная версия</h1>
+
+    <div class="controls">
+      <input type="text" id="studentName" placeholder="Фамилия и имя ученика">
+      <button class="primary" onclick="addStudent()">Добавить ученика</button>
+      <button class="secondary" onclick="takeScreenshot()">Сфоткать таблицу</button>
+      <button class="danger" onclick="clearAll()">Очистить всё</button>
+    </div>
+
+    <div id="screenshotArea">
+      <table>
+        <thead>
+          <tr>
+            <th>Имя</th>
+            <th>1 четверть</th>
+            <th>2 четверть</th>
+            <th>3 четверть</th>
+            <th>4 четверть</th>
+            <th>Годовая</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody id="studentsTable"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
+let students = JSON.parse(localStorage.getItem('students')) || [];
+const grades = ["", "н/a", "2","3","4","5"];
+function save(){ localStorage.setItem('students', JSON.stringify(students)); }
+function addStudent(){
+  const name=document.getElementById('studentName').value.trim();
+  if(!name) return alert("Введите имя ученика");
+  students.push({name:name,q1:"",q2:"",q3:"",q4:"",year:""});
+  save(); render(); document.getElementById('studentName').value="";
+}
+function deleteStudent(i){ students.splice(i,1); save(); render(); }
+function updateGrade(i,field,value){ students[i][field]=value; save(); }
+function selectBox(i,field,value){ return `<select onchange="updateGrade(${i},'${field}',this.value)">${grades.map(g=>`<option value="${g}" ${g===value?"selected":""}>${g===""?"—":g}</option>`).join('')}</select>`;}
+function render(){
+  const tbody=document.getElementById('studentsTable');
+  tbody.innerHTML="";
+  students.forEach((st,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td>${st.name}</td>
+      <td>${selectBox(i,'q1',st.q1)}</td>
+      <td>${selectBox(i,'q2',st.q2)}</td>
+      <td>${selectBox(i,'q3',st.q3)}</td>
+      <td>${selectBox(i,'q4',st.q4)}</td>
+      <td>${selectBox(i,'year',st.year)}</td>
+      <td class="actions"><button class="deleteBtn" onclick="deleteStudent(${i})">Удалить</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+function clearAll(){ if(!confirm("Очистить всех учеников?")) return; students=[]; save(); render(); }
+function takeScreenshot(){
+  html2canvas(document.getElementById('screenshotArea')).then(canvas=>{
+    const link=document.createElement('a');
+    link.download="grades.png";
+    link.href=canvas.toDataURL();
+    link.click();
+  });
+}
+render();
+</script>
+</body>
+</html>
