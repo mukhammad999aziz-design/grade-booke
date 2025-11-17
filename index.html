@@ -3,121 +3,383 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GradeBook — Улучшенный стиль</title>
+<title>GradeBook — Предметы</title>
+
 <style>
 :root{
-  --bg:#f0f4ff;
-  --card:#fff;
-  --accent:#4a6cf7;
-  --accent-hover:#3a52c4;
+  --bg:#eef2ff;
+  --card:#ffffff;
+  --accent:#4f46e5;
+  --accent2:#6366f1;
+  --text:#111827;
   --danger:#ef4444;
-  --muted:#6b7280;
-  --header-bg:linear-gradient(90deg,#e0e7ff,#c7d2fe);
-  --row-hover:#f0f2ff;
-  --shadow:0 8px 24px rgba(0,0,50,0.08);
+  --success:#10b981;
+  --shadow:0 10px 30px rgba(0,0,0,0.08);
+  --hover:#f4f4ff;
+  --border:#e5e7eb;
 }
-*{box-sizing:border-box;}
-body{
+
+*{
+  box-sizing:border-box;
   margin:0;
-  font-family: 'Inter', Roboto, Arial, sans-serif;
-  background: var(--bg);
-  color:#111;
+  padding:0;
 }
-.wrap{max-width:1200px;margin:30px auto;padding:20px;}
+
+html, body{
+  height: 100%;
+  font-family:'Inter', sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow: hidden;
+}
+
+.container{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: none;
+  margin: 0;
+}
+
 .card{
-  background: var(--card);
+  flex: 1;
+  background:var(--card);
   border-radius:16px;
-  box-shadow: var(--shadow);
-  overflow:hidden;
-  padding:20px;
-  transition: all 0.3s ease;
+  box-shadow:var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
-h1{margin:0 0 15px;font-size:24px;text-align:center;color:var(--accent);}
+
+h1{
+  text-align:center;
+  color:var(--accent);
+  font-size:28px;
+  margin-bottom:20px;
+  font-weight:700;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border);
+}
+
 .controls{
   display:flex;
   flex-wrap:wrap;
-  gap:10px;
+  gap:12px;
   justify-content:center;
   margin-bottom:20px;
+  align-items: center;
+  padding: 0 15px;
 }
+
+input{
+  padding:14px 16px;
+  border-radius:12px;
+  border:2px solid var(--border);
+  min-width:240px;
+  font-size:16px;
+  transition: all 0.3s ease;
+  background-color:white;
+}
+
+input:focus{
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.2);
+}
+
 button{
-  padding:10px 18px;
+  padding:14px 22px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   cursor:pointer;
   font-weight:600;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  font-size:16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap:8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
-button.primary{background:var(--accent); color:white;}
-button.primary:hover{background:var(--accent-hover);}
-button.secondary{background:transparent; border:2px solid var(--accent); color:var(--accent);}
-button.secondary:hover{background:var(--accent); color:white;}
-button.danger{background:var(--danger); color:white;}
-button.danger:hover{background:#c03232;}
-input[type=text]{padding:8px 10px; border-radius:8px; border:1px solid #ccc; margin-right:10px; flex:1; min-width:180px;}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button.primary{
+  background:var(--accent);
+  color:white;
+}
+
+button.secondary{
+  border:2px solid var(--accent);
+  background:white;
+  color:var(--accent);
+}
+
+button.danger{
+  background:var(--danger);
+  color:white;
+}
+
+button.success{
+  background:var(--success);
+  color:white;
+}
+
+/* TABLE */
+.table-wrap{
+  flex: 1;
+  overflow: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin-top: 10px;
+  position: relative;
+}
+
 table{
   width:100%;
-  border-collapse: separate;
-  border-spacing:0;
-  background:var(--card);
-  border-radius:12px;
-  overflow:hidden;
-  box-shadow: var(--shadow);
-  margin-bottom:20px;
+  border-collapse:collapse;
+  min-width:900px;
+  background: white;
+  table-layout: fixed;
 }
+
 thead th{
-  background: var(--header-bg);
-  color:#111;
-  font-weight:700;
+  background:linear-gradient(135deg, var(--accent2), var(--accent));
+  color:white;
+  padding:16px 12px;
   text-align:center;
   position:sticky;
   top:0;
-  z-index:2;
+  z-index:3;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  font-size: 16px;
 }
-th, td{
-  padding:12px;
-  border-bottom:1px solid #e0e7ff;
+
+td, th{
+  border-bottom:1px solid var(--border);
+  padding:14px 10px;
   text-align:center;
+  font-size:15px;
+  word-wrap: break-word;
+  word-break: break-all;
 }
-tbody tr:hover{background:var(--row-hover);}
-select{padding:6px 8px;border-radius:6px;border:1px solid #ccc;transition:0.2s;}
-select:hover{border-color:var(--accent);}
-.actions{display:flex;gap:6px;justify-content:center;}
-.deleteBtn{background:#ff4d4d;color:white;transition:0.2s;}
-.deleteBtn:hover{background:#c03232;}
-.photoBtn{background:var(--accent); color:white; transition:0.2s;}
-.photoBtn:hover{background:var(--accent-hover);}
-.panel{margin-bottom:15px;display:flex; gap:10px; flex-wrap:wrap; justify-content:center;}
-@media(max-width:900px){
-  .controls, .panel{flex-direction:column; align-items:center;}
-  input[type=text]{margin-right:0;}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr{
+  transition:all 0.3s ease;
+}
+tbody tr:hover{
+  background:var(--hover);
+}
+
+/* Стили для отображения оценок */
+.grade-cell {
+  padding: 10px 12px;
+  border-radius: 6px;
+  background-color: #f9fafb;
+  border: 1px solid var(--border);
+  font-weight: 500;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 60px;
+  font-size: 15px;
+}
+
+.grade-cell:hover {
+  background-color: #e0e7ff;
+  border-color: var(--accent);
+}
+
+.grade-cell.selected {
+  background-color: #e0e7ff;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.grade-cell.empty {
+  color: #9ca3af;
+}
+
+/* Стили для всплывающего селекта */
+.grade-popup {
+  position: absolute;
+  z-index: 1000;
+  background: white;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  padding: 10px;
+  display: none;
+  min-width: 80px;
+}
+
+.grade-popup select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  width: 100%;
+}
+
+.deleteBtn{
+  background:var(--danger);
+  color:white;
+  border-radius:8px;
+  padding:10px 14px;
+  font-size:14px;
+  border: none;
+  cursor: pointer;
+  font-weight:600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.deleteBtn:hover{
+  background:#c53030;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6b7280;
+}
+
+.empty-state p {
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+.empty-state i {
+  font-size: 64px;
+  margin-bottom: 20px;
+  display: block;
+  color: #9ca3af;
+}
+
+/* PRINT/SNAPSHOT STYLES */
+@media print {
+  body {
+    background: white;
+    padding: 0;
+  }
+  .card {
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+  }
+  .controls {
+    display: none;
+  }
+  .table-wrap {
+    box-shadow: none;
+    margin: 0;
+  }
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  input{
+    min-width:100%;
+  }
+  
+  button {
+    width: 100%;
+  }
+  
+  h1 {
+    font-size: 24px;
+    padding: 12px 0;
+  }
+  
+  td, th {
+    padding: 10px 6px;
+    font-size: 14px;
+  }
+  
+  .grade-cell {
+    padding: 8px 10px;
+    min-height: 32px;
+    min-width: 50px;
+    font-size: 14px;
+  }
+}
+
+@media(max-width:480px){
+  body {
+    padding: 0;
+  }
+  
+  .container {
+    padding: 10px;
+  }
+  
+  .card {
+    padding: 0;
+  }
+  
+  h1 {
+    font-size: 20px;
+  }
+  
+  .grade-cell {
+    padding: 6px 8px;
+    min-height: 28px;
+    min-width: 45px;
+    font-size: 13px;
+  }
+  
+  .controls {
+    padding: 0 10px;
+  }
 }
 </style>
 </head>
 <body>
-<div class="wrap">
+
+<div class="container">
   <div class="card">
-    <h1>GradeBook — Стильная версия</h1>
+    <h1>📘 GradeBook — Предметы</h1>
 
     <div class="controls">
-      <input type="text" id="studentName" placeholder="Фамилия и имя ученика">
-      <button class="primary" onclick="addStudent()">Добавить ученика</button>
-      <button class="secondary" onclick="takeScreenshot()">Сфоткать таблицу</button>
-      <button class="danger" onclick="clearAll()">Очистить всё</button>
+      <input type="text" id="studentName" placeholder="Введите имя ученика">
+      <button class="primary" onclick="addStudent()">
+        <span>➕</span> Добавить ученика
+      </button>
+      <button class="secondary" onclick="takeScreenshot()">
+        <span>📸</span> Скачать как изображение
+      </button>
+      <button class="danger" onclick="clearAll()">
+        <span>🗑️</span> Очистить всё
+      </button>
     </div>
 
-    <div id="screenshotArea">
+    <div id="screenshotArea" class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th>Имя</th>
-            <th>1 четверть</th>
-            <th>2 четверть</th>
-            <th>3 четверть</th>
-            <th>4 четверть</th>
-            <th>Годовая</th>
-            <th>Действия</th>
-          </tr>
+          <tr id="subjectsRow"></tr>
         </thead>
         <tbody id="studentsTable"></tbody>
       </table>
@@ -125,47 +387,201 @@ select:hover{border-color:var(--accent);}
   </div>
 </div>
 
+<!-- Всплывающий селект -->
+<div id="gradePopup" class="grade-popup">
+  <select id="gradeSelect"></select>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 <script>
-let students = JSON.parse(localStorage.getItem('students')) || [];
-const grades = ["", "н/a", "2","3","4","5"];
-function save(){ localStorage.setItem('students', JSON.stringify(students)); }
-function addStudent(){
-  const name=document.getElementById('studentName').value.trim();
-  if(!name) return alert("Введите имя ученика");
-  students.push({name:name,q1:"",q2:"",q3:"",q4:"",year:""});
-  save(); render(); document.getElementById('studentName').value="";
+// ---------- SUBJECTS ----------
+const subjects = [
+ "Математика","Физра","История","Кыргызский","ЧИО",
+ "Литература","Русский","Химия","Физика","Английский",
+ "Религия","Информатика","География","Технология",
+ "Геометрия","Биология","Адабият"
+];
+
+// ---------- GRADES ----------
+const grades = ["", "н/а", "2", "3", "4", "5"];
+
+let students = JSON.parse(localStorage.getItem("students_subjects")) || [];
+
+function save(){
+  localStorage.setItem("students_subjects", JSON.stringify(students));
 }
-function deleteStudent(i){ students.splice(i,1); save(); render(); }
-function updateGrade(i,field,value){ students[i][field]=value; save(); }
-function selectBox(i,field,value){ return `<select onchange="updateGrade(${i},'${field}',this.value)">${grades.map(g=>`<option value="${g}" ${g===value?"selected":""}>${g===""?"—":g}</option>`).join('')}</select>`;}
+
+// ---------- ADD STUDENT ----------
+function addStudent(){
+  const name = document.getElementById("studentName").value.trim();
+  if(!name) {
+    alert("Пожалуйста, введите имя ученика!");
+    return;
+  }
+
+  // Проверка на дубликаты
+  if(students.some(s => s.name.toLowerCase() === name.toLowerCase())) {
+    alert("Ученик с таким именем уже существует!");
+    return;
+  }
+
+  const student = { name };
+  subjects.forEach(sub => student[sub] = "");
+
+  students.push(student);
+  save();
+  render();
+  document.getElementById("studentName").value = "";
+  document.getElementById("studentName").focus();
+}
+
+// ---------- DELETE ----------
+function deleteStudent(i){
+  if(!confirm("Вы уверены, что хотите удалить этого ученика?")) return;
+  students.splice(i,1);
+  save();
+  render();
+}
+
+// ---------- UPDATE ----------
+function updateGrade(studentIndex, subject, value){
+  students[studentIndex][subject] = value;
+  save();
+  render(); // Перерисовываем для обновления отображения
+}
+
+// ---------- SHOW GRADE SELECT ----------
+function showGradeSelect(cell, studentIndex, subject) {
+  const popup = document.getElementById('gradePopup');
+  const select = document.getElementById('gradeSelect');
+  
+  // Заполняем селект
+  select.innerHTML = '';
+  grades.forEach(grade => {
+    const option = document.createElement('option');
+    option.value = grade;
+    option.textContent = grade || '—';
+    if (students[studentIndex][subject] === grade) {
+      option.selected = true;
+    }
+    select.appendChild(option);
+  });
+  
+  // Позиционируем всплывающее окно
+  const rect = cell.getBoundingClientRect();
+  popup.style.top = rect.bottom + window.scrollY + 5 + 'px';
+  popup.style.left = rect.left + window.scrollX + 'px';
+  popup.style.display = 'block';
+  
+  // Сохраняем данные для обновления
+  select.onchange = function() {
+    updateGrade(studentIndex, subject, this.value);
+    popup.style.display = 'none';
+  };
+  
+  // Закрытие при клике вне
+  setTimeout(() => {
+    document.addEventListener('click', function closePopup(e) {
+      if (!popup.contains(e.target) && !cell.contains(e.target)) {
+        popup.style.display = 'none';
+        document.removeEventListener('click', closePopup);
+      }
+    });
+  }, 10);
+}
+
+// ---------- RENDER ----------
 function render(){
-  const tbody=document.getElementById('studentsTable');
-  tbody.innerHTML="";
-  students.forEach((st,i)=>{
-    const tr=document.createElement('tr');
-    tr.innerHTML=`
+  // subject header row
+  document.getElementById("subjectsRow").innerHTML =
+    `<th>Имя</th>` +
+    subjects.map(s => `<th>${s}</th>`).join("") +
+    `<th>Действие</th>`;
+
+  const tbody = document.getElementById("studentsTable");
+  
+  if (students.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="${subjects.length + 2}" class="empty-state">
+          <p>Нет учеников в журнале</p>
+          <p>Добавьте первого ученика, чтобы начать работу</p>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = "";
+
+  students.forEach((st, i)=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
       <td>${st.name}</td>
-      <td>${selectBox(i,'q1',st.q1)}</td>
-      <td>${selectBox(i,'q2',st.q2)}</td>
-      <td>${selectBox(i,'q3',st.q3)}</td>
-      <td>${selectBox(i,'q4',st.q4)}</td>
-      <td>${selectBox(i,'year',st.year)}</td>
-      <td class="actions"><button class="deleteBtn" onclick="deleteStudent(${i})">Удалить</button></td>
+      ${subjects.map(sub => {
+        const grade = st[sub];
+        const isEmpty = !grade;
+        const isSelected = !!grade;
+        return `
+          <td>
+            <div class="grade-cell ${isEmpty ? 'empty' : ''} ${isSelected ? 'selected' : ''}" 
+                 onclick="showGradeSelect(this, ${i}, '${sub.replace(/'/g, "\\'")}')">
+              ${grade || '—'}
+            </div>
+          </td>
+        `;
+      }).join("")}
+      <td><button class="deleteBtn" onclick="deleteStudent(${i})">Удалить</button></td>
     `;
     tbody.appendChild(tr);
   });
 }
-function clearAll(){ if(!confirm("Очистить всех учеников?")) return; students=[]; save(); render(); }
+
+// ---------- SCREENSHOT ----------
 function takeScreenshot(){
-  html2canvas(document.getElementById('screenshotArea')).then(canvas=>{
-    const link=document.createElement('a');
-    link.download="grades.png";
-    link.href=canvas.toDataURL();
-    link.click();
+  const screenshotArea = document.getElementById("screenshotArea");
+  
+  // Убедимся, что все элементы отображаются корректно
+  html2canvas(screenshotArea, {
+    backgroundColor: '#ffffff',
+    scale: 2,
+    useCORS: true,
+    allowTaint: true,
+    logging: false,
+    width: screenshotArea.scrollWidth,
+    height: screenshotArea.scrollHeight,
+    scrollX: 0,
+    scrollY: 0,
+    dpi: 192 // Высокое разрешение для печати
+  }).then(canvas=>{
+    const a = document.createElement("a");
+    a.href = canvas.toDataURL("image/png", 1.0);
+    a.download = `gradebook_${new Date().toISOString().slice(0, 10)}.png`;
+    a.click();
   });
 }
+
+// ---------- CLEAR ----------
+function clearAll(){
+  if(!confirm("Вы уверены, что хотите удалить всех учеников? Это действие нельзя отменить.")) return;
+  students = [];
+  save();
+  render();
+}
+
+// ---------- INIT ----------
+document.getElementById("studentName").addEventListener("keypress", function(e) {
+  if(e.key === "Enter") {
+    addStudent();
+  }
+});
+
+// Скрыть всплывающий селект при загрузке
+document.getElementById('gradePopup').style.display = 'none';
+
 render();
 </script>
+
 </body>
 </html>
